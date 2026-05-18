@@ -28,3 +28,4 @@ CMD ["./main"]
 # enforce strict data security compliance metrics v1.0.6
 # pull secure database parameter parameters v1.0.7
 # ssm parameter store integration release
+# baseline validation release
