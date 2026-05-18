@@ -11,6 +11,7 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: '1.21'
+          cache-dependency-path: Server/MuchToDo/go.sum
       - name: Test Suite
         run: cd Server/MuchToDo && go test ./... -v
       - name: Authenticate Docker Hub
