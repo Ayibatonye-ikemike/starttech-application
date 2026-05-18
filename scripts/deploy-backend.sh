@@ -25,6 +25,19 @@ if [ "$STATUS" = "InProgress" ]; then
   echo "✅ Previous deployment finished. Proceeding with your new deployment..."
 fi
 
+# FETCH THE INDEPENDENT TEMPLATE ID AND ENFORCE LATEST MAPPING OVERRIDES
+TEMPLATE_ID=$(aws autoscaling describe-auto-scaling-groups \
+  --auto-scaling-group-names "$ASG_NAME" \
+  --region "$REGION" \
+  --query "AutoScalingGroups[0].LaunchTemplate.LaunchTemplateId" \
+  --output text)
+
+echo "🔄 Overriding ASG definition tracking to map explicit template ID: $TEMPLATE_ID at \$Latest version..."
+aws autoscaling update-auto-scaling-group \
+  --auto-scaling-group-name "$ASG_NAME" \
+  --launch-template "LaunchTemplateId=$TEMPLATE_ID,Version=\$Latest" \
+  --region "$REGION"
+
 echo "🚀 Triggering fresh rolling update..."
 aws autoscaling start-instance-refresh \
   --auto-scaling-group-name "$ASG_NAME" \
