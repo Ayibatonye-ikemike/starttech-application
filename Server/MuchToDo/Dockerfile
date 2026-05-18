@@ -12,3 +12,4 @@ COPY --from=builder /app/main .
 EXPOSE 8080
 ENV PORT=8080
 CMD ["./main"]
+# manual-kick-1779112049
