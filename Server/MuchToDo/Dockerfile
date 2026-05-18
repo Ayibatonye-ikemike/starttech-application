@@ -17,3 +17,4 @@ CMD ["./main"]
 # trigger execution buffer test
 # authenticated production database release
 # tracking production version rollout
+# fix container boot loop sequence
