@@ -22,3 +22,4 @@ CMD ["./main"]
 # final production rollout verification
 # final production network rollout
 # advanced deployment script release
+# release with complete environmental mappings
