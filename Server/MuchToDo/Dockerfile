@@ -26,3 +26,4 @@ CMD ["./main"]
 # verified production mongo connection v1.0
 # verified application release v1.0.5
 # enforce strict data security compliance metrics v1.0.6
+# pull secure database parameter parameters v1.0.7
