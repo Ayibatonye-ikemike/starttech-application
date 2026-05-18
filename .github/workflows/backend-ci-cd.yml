@@ -42,3 +42,4 @@ jobs:
         run: |
           chmod +x scripts/health-check.sh
           ./scripts/health-check.sh ${{ secrets.ALB_PRODUCTION_DNS }}
+# trigger run
