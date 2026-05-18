@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-cd Client
+cd frontend
 npm ci
 npm run build
 aws s3 sync dist/ s3://starttech-frontend-app-unique-bucket-xyz --delete

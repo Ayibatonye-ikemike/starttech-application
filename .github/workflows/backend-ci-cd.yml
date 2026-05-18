@@ -2,7 +2,7 @@ name: Backend Delivery
 on:
   push:
     branches: [ main ]
-    paths: [ 'Server/**' ]
+    paths: [ 'backend/**' ]
 jobs:
   test-build-push:
     runs-on: ubuntu-latest
@@ -11,9 +11,9 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: '1.25'
-          cache-dependency-path: Server/MuchToDo/go.sum
+          cache-dependency-path: backend/MuchToDo/go.sum
       - name: Test Suite
-        run: cd Server/MuchToDo && go test ./... -v
+        run: cd backend/MuchToDo && go test ./... -v
       - name: Authenticate Docker Hub
         uses: docker/login-action@v3
         with:
@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Publish Container Artifact
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/much-to-do-backend:latest ./Server/MuchToDo
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/much-to-do-backend:latest ./backend/MuchToDo
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/much-to-do-backend:latest
   trigger-deploy:
     needs: test-build-push

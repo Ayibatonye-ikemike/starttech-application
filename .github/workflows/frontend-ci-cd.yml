@@ -2,7 +2,7 @@ name: Frontend Delivery
 on:
   push:
     branches: [ main ]
-    paths: [ 'Client/**' ]
+    paths: [ 'frontend/**' ]
 jobs:
   deploy-frontend:
     runs-on: ubuntu-latest
@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: 20
       - name: Validate Audit
-        run: cd Client && (npm audit --audit-level=critical || true)
+        run: cd frontend && (npm audit --audit-level=critical || true)
       - name: Ship Application
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
