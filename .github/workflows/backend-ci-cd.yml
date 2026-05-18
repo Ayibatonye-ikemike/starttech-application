@@ -38,8 +38,11 @@ jobs:
         run: |
           chmod +x scripts/deploy-backend.sh
           ./scripts/deploy-backend.sh
+      - name: Wait for AWS Boot Sequence
+        run: |
+          echo "Waiting 90 seconds to allow AWS instances to initialize Docker layers..."
+          sleep 90
       - name: Health Verification
         run: |
           chmod +x scripts/health-check.sh
           ./scripts/health-check.sh ${{ secrets.ALB_PRODUCTION_DNS }}
-# trigger run
