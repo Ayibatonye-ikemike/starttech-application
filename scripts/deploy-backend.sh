@@ -1,6 +1,32 @@
 #!/bin/bash
 set -e
+
+ASG_NAME="starttech-backend-asg"
+REGION="us-east-1"
+
+echo "Checking for active instance refreshes on $ASG_NAME..."
+STATUS=$(aws autoscaling describe-instance-refreshes \
+  --auto-scaling-group-name "$ASG_NAME" \
+  --region "$REGION" \
+  --query "InstanceRefreshes[?Status=='InProgress'].Status" \
+  --output text)
+
+if [ "$STATUS" = "InProgress" ]; then
+  echo "⚠️ An instance refresh is already running. Waiting for it to complete instead of breaking..."
+  while [ "$STATUS" = "InProgress" ]; do
+    sleep 15
+    STATUS=$(aws autoscaling describe-instance-refreshes \
+      --auto-scaling-group-name "$ASG_NAME" \
+      --region "$REGION" \
+      --query "InstanceRefreshes[?Status=='InProgress'].Status" \
+      --output text)
+    echo "Still updating servers..."
+  done
+  echo "✅ Previous deployment finished. Proceeding with your new deployment..."
+fi
+
+echo "🚀 Triggering fresh rolling update..."
 aws autoscaling start-instance-refresh \
-  --auto-scaling-group-name "starttech-backend-asg" \
+  --auto-scaling-group-name "$ASG_NAME" \
   --preferences '{"MinHealthyPercentage": 50}' \
-  --region us-east-1
+  --region "$REGION"
