@@ -23,3 +23,4 @@ CMD ["./main"]
 # final production network rollout
 # advanced deployment script release
 # release with complete environmental mappings
+# verified production mongo connection v1.0
